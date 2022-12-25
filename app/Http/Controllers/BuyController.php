@@ -96,8 +96,9 @@ class BuyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Buy $buy)
     {
-        //
+        Buy::destroy($buy->id);
+        return redirect('/dashboard/buys')->with('success', ' Bahan dihapus');
     }
 }
