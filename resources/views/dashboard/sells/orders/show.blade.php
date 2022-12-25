@@ -66,7 +66,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Stok ikan</h5>
                     <p class="card-text"></p>
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">NO</th>
