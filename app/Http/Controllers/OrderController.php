@@ -18,7 +18,7 @@ class OrderController extends Controller
     public function index()
     {
         return view('dashboard.sells.orders.index', [
-            'orders' => Order::latest()->filter()->paginate(20)->withQueryString()
+            'orders' => Order::latest()->filter()->paginate(10)->withQueryString()
         ]);
     }
 
@@ -62,9 +62,15 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $categories = Category::all();
+        foreach ($categories as $index => $category) {
+
+            $categories[$index]->weight = $category->buy->sum('weight') - $category->sell->sum('weight');
+        }
+
         return view('dashboard.sells.orders.show', [
             'order' => $order,
-            'categories' => Category::all(),
+            'categories' => $categories,
             'sells' => Sell::where('order_id', $order->id)->get()
         ]);
     }
@@ -112,8 +118,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        // Order::destroy($orders->id);
-        // return redirect('/dashboard/sells/orders')->with('success', 'Order deleted!!');
+        Order::destroy($order->id);
+        return redirect('/dashboard/sells/orders')->with('success', 'Order deleted!!');
         return $order;
     }
 }

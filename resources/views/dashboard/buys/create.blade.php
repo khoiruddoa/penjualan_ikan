@@ -43,7 +43,7 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Harga per kilo</label>
-                <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}"
+                <input type="text" class="form-control" id="inputAngka" name="price" value="{{ old('price') }}"
                     required>
             </div>
             <div class="mb-3">

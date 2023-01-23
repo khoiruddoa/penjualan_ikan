@@ -10,6 +10,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if (session()->has('failed'))
+        <div class="alert alert-danger alert-dismissible fade show col-lg-8" role="alert">
+            {{ session('failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="col-md-6">
         <form action="/dashboard/sells/orders" method="GET">
             <div class="input-group mb-3">
@@ -18,8 +24,8 @@
                 <button class="btn btn-primary" type="submit">GET</button>
             </div>
         </form>
-    
-    
+
+
         {{-- <form action="/dashboard/buys">
             <div class="input-group mb-3">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -27,7 +33,7 @@
                     value="{{ request('search') }}">
             </div>
         </form> --}}
-    
+
     </div>
     <div class="table-responsive col-lg-8">
         <a href="/dashboard/sells/orders/create" class="btn btn-primary mb-3">Tambahkan Transaksi Baru</a>
@@ -53,13 +59,12 @@
                         <td><a href="/dashboard/sells/orders/{{ $order->id }}" class="badge bg-info">Lihat Detail
                             </a>
                             @if ($order->status == 0)
-            
-                            <form action="/dashboard/sells/{{ $order->customer->name }}" method="post" class="d-inline">
-                                @method('delete')
-                                @csrf
-                                <button class="badge bg-danger border-0"
-                                    onclick="return confirm('Hapus Transaksi ini?')">Hapus</button>
-                            </form>
+                                <form action="/dashboard/sells/orders/{{ $order->id }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="badge bg-danger border-0"
+                                        onclick="return confirm('Hapus Transaksi ini?')">Hapus</button>
+                                </form>
                             @endif
                             <a href="/dashboard/sells/orders/{{ $order->id }}/edit" target="blank"
                                 class="badge bg-info"><span data-feather="printer"></span>

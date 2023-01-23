@@ -72,6 +72,7 @@ Route::get('/register', [RegisterController::class, 'index'])->middleware('guest
 Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
+
 Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth'); //route memakai resource karena akan dibuatkan semua oleh laravel untuk crud
 Route::resource('/dashboard/customers', CustomerController::class)->middleware('auth');

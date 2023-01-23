@@ -23,14 +23,14 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->buy->sum('weight') - $category->sell->sum('weight') }}</td>
-
+                                    <td>{{ $category->weight }}</td>
                                 </tr>
                             @endforeach
 
                         </tbody>
                     </table>
                 </div>
+                {{ $categories->links() }}
             </div>
         </div>
         <div class="col-sm-6">

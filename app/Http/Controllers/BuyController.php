@@ -43,6 +43,9 @@ class BuyController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'price' => str_replace('.', '', $request->price)
+        ]);
 
         $validatedData = $request->validate([
             'supplier_id' => 'required',

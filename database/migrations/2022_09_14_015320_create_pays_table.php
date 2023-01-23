@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('bill_id');
-            $table->integer('amount');
+            $table->float('amount', 20, 1);
         });
     }
 

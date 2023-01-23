@@ -1,10 +1,24 @@
 @extends('dashboard.layouts.main')
 @section('container')
 
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session()->has('failed'))
+            <div class="alert alert-danger alert-dismissible fade show col-lg-8" role="alert">
+                {{ session('failed') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!-- <h1 class="h2">daftar pesanan {{ $order->customer->name }}</h1> -->
     </div>
-    <div class="table-responsive col-lg-8">
+    <div class="table-responsive col-lg-8 m-5">
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
@@ -40,18 +54,12 @@
             </tbody>
         </table>
     </div>
-    @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show col-lg-8" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     <a href="/dashboard/sells/orders/{{ $order->id }}/edit" target="blank" class="badge bg-info"><span
             data-feather="printer"></span>
     </a>
     <br>
     @if ($order->status < 1)
-        <form action="/dashboard/bills" method="post" class="d-inline">
+        <form action="/dashboard/bills" method="post" class="d-inline m-5">
             @csrf
             <input type="hidden" name="order_id" value="{{ $order->id }}">
             <input type="hidden" name="id" value="{{ $order->id }}">
@@ -61,7 +69,7 @@
                 Tagihan</button>
         </form>
 
-        <div class="col-lg-4 mt-3">
+        {{-- <div class="col-lg-4 mt-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Stok ikan</h5>
@@ -80,7 +88,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->buy->sum('weight') - $category->sell->sum('weight') }}</td>
+                                    <td>{{ $category->weight }}</td>
 
                                 </tr>
                             @endforeach
@@ -89,9 +97,10 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <h2>Tambah barang </h2>
-        <div class="col-lg-8">
+        </div> --}}
+        <br>
+        <div class="col-lg-8 m-5">
+            <h2>Tambah barang </h2>
             <form method="post" action="/dashboard/sells" class="mb-5">
                 @csrf
                 <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -99,10 +108,12 @@
                     <label for="category" class="form-label">Nama Barang :</label>
                     <select class="form-select" name="category_id">
                         @foreach ($categories as $category)
-                            @if (old('category_id') == $category->id)
-                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                            @else
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if ($category->weight > 0)
+                                @if (old('category_id') == $category->id)
+                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                @else
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endif
                             @endif
                         @endforeach
                     </select>
@@ -114,7 +125,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Harga per kilo</label>
-                    <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}"
+                    <input type="text" class="form-control" id="inputAngka" name="price" value="{{ old('price') }}"
                         required>
                 </div>
                 <button type="submit" class="btn btn-primary">Input</button>

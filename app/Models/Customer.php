@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 class Customer extends Model
 {
     use HasFactory;
-    protected $dates = ['deleted_at'];
     protected $guarded = ['id'];
     public function scopeFilter($query)
     {

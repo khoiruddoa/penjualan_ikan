@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Bill;
 use App\Models\Order;
 use App\Models\Pay;
@@ -16,8 +17,8 @@ class BillController extends Controller
      */
     public function index()
     {
-        return view ('dashboard.bills.index',[
-            'bills' => bill::all(),
+        return view('dashboard.bills.index', [
+            'bills' => bill::orderby('id', 'desc')->paginate(10),
             'pays' => pay::all()
 
         ]);
@@ -46,7 +47,7 @@ class BillController extends Controller
             'debt' => 'required',
 
         ]);
-        $validatedData2['status'] = 1 ;
+        $validatedData2['status'] = 1;
 
         Bill::create($validatedData);
         Order::where('id', $request->id)->update($validatedData2);
@@ -73,7 +74,7 @@ class BillController extends Controller
     public function edit(Bill $bill)
     {
         return view('dashboard.bills.print', [
-            'bills' => bill:: where('id', $bill->id)->get()
+            'bills' => bill::where('id', $bill->id)->get()
 
         ]);
     }

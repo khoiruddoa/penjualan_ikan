@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sell;
+use App\Models\Category;
+
+
 
 use Illuminate\Http\Request;
 
@@ -37,6 +40,17 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
+        $category = Category::find($request->category_id);
+
+        $stock = $category->buy->sum('weight') - $category->sell->sum('weight');
+        if ($request->weight >  $stock) {
+            return redirect()->back()->with('failed', 'stock tidak cukup');
+        }
+        $request->merge([
+            'price' => str_replace('.', '', $request->price)
+        ]);
+
+
         $validatedData = $request->validate([
             'order_id' => 'required',
             'category_id' => 'required',
@@ -44,8 +58,12 @@ class SellController extends Controller
             'price' => 'required'
         ]);
         $validatedData['total'] = $request['weight'] * $request['price'];
+
+        // if ($request->weight >  $categories->weight) {
+        //     return redirect('/dashboard/sells/orders')->with('failed', 'stock tidak cukup');
+        // }
         Sell::create($validatedData);
-        return redirect('/dashboard/sells/orders')->with('success', 'Bahan baru telah ditambahkan');
+        return redirect()->back()->with('success', 'Barang baru telah ditambahkan');
     }
 
     /**
@@ -88,8 +106,10 @@ class SellController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy(Sell $sell)
+    // {
+
+    //     Category::destroy($sell->id);
+    //     return redirect('/dashboard/sells/orders')->with('success', ' Bahan dihapus');
+    // }
 }

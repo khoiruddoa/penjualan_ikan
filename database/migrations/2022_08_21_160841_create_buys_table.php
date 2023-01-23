@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('supplier_id');
             $table->foreignId('category_id');
             $table->date('date');
-            $table->integer('weight');
+            $table->float('weight', 10, 1);
             $table->integer('price');
             $table->text('description');
             $table->timestamps();

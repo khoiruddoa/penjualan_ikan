@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignId('order_id');
             $table->foreignId('category_id');
 
-            $table->integer('weight');
+            $table->float('weight', 10, 1);
             $table->integer('price');
-            $table->integer('total');
+            $table->float('total', 10, 1);
             $table->timestamps();
         });
     }

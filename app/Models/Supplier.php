@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use SoftDeletes;
+
     use HasFactory;
     protected $guarded = ['id'];
-    protected $dates = ['deleted_at'];
+
 
     public function buy()
     {
